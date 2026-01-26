@@ -1,0 +1,14 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/logs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model BarcodeLog {
+  id        String   @id @default(uuid())
+  barcode   String
+  createdAt DateTime @default(now())
+}

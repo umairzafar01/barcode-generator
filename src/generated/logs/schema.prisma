@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/logs"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_LOGS")
+}
+
+model BarcodeLog {
+  id        String        @id @default(uuid())
+  action    BarcodeAction
+  productId String
+  createdAt DateTime      @default(now())
+}
+
+enum BarcodeAction {
+  GENERATED
+  PRINTED
+}
