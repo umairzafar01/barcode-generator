@@ -3,29 +3,21 @@ import { prismaCore } from "@/lib/prismaCore";
 import { prismaLogs } from "@/lib/prismaLog";
 import { generateEAN13 } from "@/lib/ean13";
 import { generateBarcode } from "@/lib/barcode";
+import { getUserFromCookies } from "@/lib/auth";
 
 
 
 export async function POST(req: Request) {
-  let body;
+  const { name, price } = await req.json();
 
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json(
-      { error: "Request body must be valid JSON" },
-      { status: 400 }
-    );
-  }
-
-  const { name, price } = body;
-
-  if (!name || !price) {
+  if (!name || typeof name !== "string" || !price) {
     return NextResponse.json(
       { error: "name and price are required" },
       { status: 400 }
     );
   }
+
+  const currentUser = await getUserFromCookies();
 
   // 1️⃣ Generate unique EAN‑13
   let barcode = "";
@@ -39,9 +31,14 @@ export async function POST(req: Request) {
     exists = !!found;
   }
 
-  // 2️⃣ Create product
+  // 2️⃣ Create product (linked to user if present)
   const product = await prismaCore.product.create({
-    data: { name, price, barcode },
+    data: {
+      name,
+      price,
+      barcode,
+      userId: currentUser?.sub ?? null,
+    },
   });
 
   // 3️⃣ Log generation
@@ -55,9 +52,9 @@ export async function POST(req: Request) {
   // 4️⃣ Generate barcode image
   const image = await generateBarcode(barcode);
 
-  return new NextResponse(new Uint8Array(image), {
-    headers: { "Content-Type": "image/png",
-     },
-
+  return new Response(image, {
+    headers: {
+      "Content-Type": "image/png",
+    },
   });
 }

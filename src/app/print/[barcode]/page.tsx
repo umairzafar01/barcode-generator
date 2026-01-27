@@ -1,4 +1,5 @@
 import { prismaCore } from "@/lib/prismaCore";
+import { getUserFromCookies } from "@/lib/auth";
 
 type Props = {
   params: Promise<{ barcode: string }>;
@@ -6,19 +7,25 @@ type Props = {
 
 export default async function PrintPage({ params }: Props) {
   const { barcode } = await params;
+  const current = await getUserFromCookies();
+  const isAdmin = current?.role === "ADMIN";
 
-  const product = await prismaCore.product.findUnique({
-    where: { barcode },
+  const product = await prismaCore.product.findFirst({
+    where: isAdmin
+      ? { barcode }
+      : {
+          barcode,
+          userId: current?.sub ?? "__none__",
+        },
   });
 
   if (!product) return null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white print:bg-white">
-      <div className="sticker border border-dashed border-gray-400 p-1 text-center flex flex-col justify-between">
-
+    <div className="flex min-h-screen items-center justify-center bg-white print:bg-white">
+      <div className="sticker flex flex-col justify-between border border-dashed border-slate-400 p-1 text-center">
         {/* PRODUCT NAME */}
-        <p className="text-[10px] font-semibold truncate">
+        <p className="truncate text-[10px] font-semibold">
           {product.name}
         </p>
 

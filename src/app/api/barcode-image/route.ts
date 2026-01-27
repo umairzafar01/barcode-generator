@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { generateBarcode } from "@/lib/barcode";
 
 export async function GET(req: Request) {
@@ -6,14 +5,18 @@ export async function GET(req: Request) {
   const value = searchParams.get("value");
 
   if (!value) {
-    return NextResponse.json({ error: "Missing barcode" }, { status: 400 });
+    return new Response(JSON.stringify({ error: "Missing barcode" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   const image = await generateBarcode(value);
 
-  return new NextResponse(new Uint8Array(image), {
+  return new Response(image, {
     headers: {
       "Content-Type": "image/png",
+      "Cache-Control": "public, max-age=31536000, immutable",
     },
   });
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prismaCore } from "@/lib/prismaCore";
+import { getUserFromCookies } from "@/lib/auth";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -9,8 +10,16 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Barcode missing" }, { status: 400 });
   }
 
-  const product = await prismaCore.product.findUnique({
-    where: { barcode },
+  const current = await getUserFromCookies();
+  const isAdmin = current?.role === "ADMIN";
+
+  const product = await prismaCore.product.findFirst({
+    where: isAdmin
+      ? { barcode }
+      : {
+          barcode,
+          userId: current?.sub ?? "__none__",
+        },
   });
 
   if (!product) {

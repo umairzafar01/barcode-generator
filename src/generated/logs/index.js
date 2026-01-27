@@ -129,7 +129,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\sahil\\Documents\\New folder\\BarCode-assign1\\barcode-generator\\src\\generated\\logs",
+      "value": "C:\\Users\\sahil\\Downloads\\BarCode-main\\BarCode\\barcode-generator\\src\\generated\\logs",
       "fromEnvVar": null
     },
     "config": {
@@ -143,7 +143,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\sahil\\Documents\\New folder\\BarCode-assign1\\barcode-generator\\prisma\\logs\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\sahil\\Downloads\\BarCode-main\\BarCode\\barcode-generator\\prisma\\logs\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

@@ -105,6 +105,16 @@ exports.Prisma.ProductScalarFieldEnum = {
   name: 'name',
   barcode: 'barcode',
   price: 'price',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  role: 'role',
   createdAt: 'createdAt'
 };
 
@@ -122,11 +132,15 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
 
 exports.Prisma.ModelName = {
   Barcode: 'Barcode',
-  Product: 'Product'
+  Product: 'Product',
+  User: 'User'
 };
 /**
  * Create the Client
@@ -139,7 +153,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\sahil\\Documents\\New folder\\BarCode-assign1\\barcode-generator\\src\\generated\\core",
+      "value": "C:\\Users\\sahil\\Downloads\\BarCode-main\\BarCode\\barcode-generator\\src\\generated\\core",
       "fromEnvVar": null
     },
     "config": {
@@ -153,7 +167,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\sahil\\Documents\\New folder\\BarCode-assign1\\barcode-generator\\prisma\\core\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\sahil\\Downloads\\BarCode-main\\BarCode\\barcode-generator\\prisma\\core\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -167,7 +181,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -176,13 +189,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../../src/generated/core\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL_CORE\")\n}\n\nmodel Barcode {\n  id        String   @id @default(uuid())\n  value     String   @unique\n  format    String\n  createdAt DateTime @default(now())\n}\n\nmodel Product {\n  id        String   @id @default(uuid())\n  name      String\n  barcode   String   @unique\n  price     Float?\n  createdAt DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "0ef12c7ae30803f2592c0315d2ba4b48d309f3dfe207e19c10b2b9be6655df09",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../../src/generated/core\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL_CORE\")\n}\n\nmodel Barcode {\n  id        String   @id @default(uuid())\n  value     String   @unique\n  format    String\n  createdAt DateTime @default(now())\n}\n\nmodel Product {\n  id        String   @id @default(uuid())\n  name      String\n  barcode   String   @unique\n  price     Float?\n  createdAt DateTime @default(now())\n  userId    String?\n  user      User?    @relation(fields: [userId], references: [id])\n}\n\nmodel User {\n  id           String    @id @default(uuid())\n  name         String?\n  email        String    @unique\n  passwordHash String\n  role         Role      @default(USER)\n  createdAt    DateTime  @default(now())\n  products     Product[]\n}\n\nenum Role {\n  USER\n  ADMIN\n}\n",
+  "inlineSchemaHash": "08fad40caaada2a1a85774689bbb543b89e0628bb3caaefd4130eae6227b9d43",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Barcode\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"format\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Product\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"barcode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Barcode\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"format\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Product\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"barcode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ProductToUser\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"products\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"ProductToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

@@ -8,6 +8,11 @@ datasource db {
   url      = env("DATABASE_URL_CORE")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model Barcode {
   id        String   @id @default(uuid())
   value     String   @unique
@@ -21,4 +26,13 @@ model Product {
   barcode   String   @unique
   price     Float?
   createdAt DateTime @default(now())
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String?
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
 }

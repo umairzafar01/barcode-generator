@@ -21,4 +21,21 @@ model Product {
   barcode   String   @unique
   price     Float?
   createdAt DateTime @default(now())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String?
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  products     Product[]
+}
+
+enum Role {
+  USER
+  ADMIN
 }
