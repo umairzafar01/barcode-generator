@@ -52,7 +52,7 @@ export async function POST(req: Request) {
   // 4️⃣ Generate barcode image
   const image = await generateBarcode(barcode);
 
-  return new Response(image, {
+  return new Response(new Uint8Array(image), {
     headers: {
       "Content-Type": "image/png",
     },

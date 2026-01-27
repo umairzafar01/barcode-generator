@@ -13,7 +13,7 @@ export async function GET(req: Request) {
 
   const image = await generateBarcode(value);
 
-  return new Response(image, {
+  return new Response(new Uint8Array(image), {
     headers: {
       "Content-Type": "image/png",
       "Cache-Control": "public, max-age=31536000, immutable",
