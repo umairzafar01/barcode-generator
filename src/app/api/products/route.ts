@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prismaCore } from "@/lib/prismaCore";
 import { getUserFromCookies } from "@/lib/auth";
+import { Prisma } from "@/generated/core";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -10,7 +11,7 @@ export async function GET(req: Request) {
     const current = await getUserFromCookies();
     const isAdmin = current?.role === "ADMIN";
 
-    const where =
+    const where: Prisma.ProductWhereInput | undefined =
       q.trim().length === 0
         ? undefined
         : {
