@@ -1,5 +1,6 @@
 import { prismaCore } from "@/lib/prismaCore";
 import { getUserFromCookies } from "@/lib/auth";
+import { Prisma } from "@/generated/core";
 
 type Props = {
   searchParams: Promise<{ codes?: string }>;
@@ -11,18 +12,18 @@ export default async function BulkPrint({ searchParams }: Props) {
   const current = await getUserFromCookies();
   const isAdmin = current?.role === "ADMIN";
 
-  const products = await prismaCore.product.findMany(
-    isAdmin
-      ? {
-          where: { barcode: { in: barcodeList } },
-        }
-      : {
-          where: {
-            barcode: { in: barcodeList },
-            userId: current?.sub ?? "__none__",
-          },
-        }
-  );
+  const args: Prisma.ProductFindManyArgs = isAdmin
+    ? {
+        where: { barcode: { in: barcodeList } },
+      }
+    : {
+        where: {
+          barcode: { in: barcodeList },
+          userId: current?.sub ?? "__none__",
+        },
+      };
+
+  const products = await prismaCore.product.findMany(args);
 
   return (
     <div className="bg-white p-2 print:p-0">
