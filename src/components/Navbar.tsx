@@ -69,8 +69,8 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-30 border-b bg-white/80 backdrop-blur shadow-sm dark:bg-slate-950/80 dark:border-slate-800">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center gap-4">
-        <div className="flex items-center gap-2">
+      <div className="max-w-6xl mx-auto px-3 py-2 sm:px-4 sm:py-3 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2 min-w-0">
           <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-500 to-sky-400 flex items-center justify-center text-xs font-black text-white shadow-soft">
             BX
           </div>
@@ -84,7 +84,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-end gap-2">
           {user && (
             <>
               <Link href="/" className={linkClass("/")}>

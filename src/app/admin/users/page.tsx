@@ -88,8 +88,8 @@ export default function AdminUsersPage() {
         </div>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <table className="w-full text-left text-sm">
+      <div className="overflow-x-auto">
+        <table className="min-w-[640px] w-full text-left text-sm rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
           <thead className="bg-slate-50/80 text-xs text-slate-500 dark:bg-slate-900/60 dark:text-slate-400">
             <tr>
               <th className="p-3 font-medium">Email</th>

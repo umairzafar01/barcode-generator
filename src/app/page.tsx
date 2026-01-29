@@ -39,8 +39,8 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-3xl grid gap-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-center">
+    <main className="min-h-[calc(100vh-64px)] flex items-start md:items-center justify-center px-3 py-6 sm:px-4 sm:py-8">
+      <div className="w-full max-w-3xl grid gap-8 md:gap-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-start md:items-center">
         <section className="space-y-4">
           <p className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700 ring-1 ring-brand-100 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-800">
             Blazing fast barcode generation
